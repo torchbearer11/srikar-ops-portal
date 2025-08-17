@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Srikar Jewellers Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {--gold-primary: #DCCA87; --dark-bg: #0C0C0C; --text-primary: #FFFFFF; --text-secondary: #AAAAAA;}
+        body { font-family: 'Poppins', sans-serif; background-color: var(--dark-bg); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .login-container { background-color: #181818; padding: 3rem; border-radius: 15px; border: 1px solid rgba(220, 202, 135, 0.15); width: 100%; max-width: 400px; text-align: center; }
+        h1 { font-family: 'Cormorant Garamond', serif; color: var(--gold-primary); font-size: 2.5rem; margin-bottom: 2rem; }
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        input { box-sizing: border-box; width: 100%; padding: 0.8rem; border: 1px solid #333; border-radius: 8px; background-color: #222; color: var(--text-primary); font-size: 1rem; }
+        button { width: 100%; padding: 0.8rem; background-color: var(--gold-primary); color: var(--dark-bg); border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+        #error-message { color: #d9534f; margin-top: 1rem; height: 1em; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Operations Portal</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit">Login</button>
+            <p id="error-message"></p>
+        </form>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBJkFO2l12n4hKLbNd1vEMgz87GFzH77lg",
+            authDomain: "srikar-jewellers-crm.firebaseapp.com",
+            projectId: "srikar-jewellers-crm",
+            storageBucket: "srikar-jewellers-crm.appspot.com",
+            messagingSenderId: "377625912262",
+            appId: "1:377625912262:web:d6d05bec0d817e211b48c7",
+            measurementId: "G-06K93QM4V4"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        auth.onAuthStateChanged(user => { if (user) { window.location.href = '/'; } });
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = e.target.email.value;
+            const password = e.target.password.value;
+            auth.signInWithEmailAndPassword(email, password).catch(err => {
+                document.getElementById('error-message').textContent = 'Error: Invalid email or password.';
+            });
+        });
+    </script>
+</body>
+</html>
